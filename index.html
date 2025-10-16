@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Light Consig</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#000;
+      --muted:#dcdcdc;
+      --gold:#FFD700;
+      --gold-dark:#c5a100;
+      --card-bg: rgba(255,255,255,0.03);
+      --glass: rgba(255,255,255,0.04);
+      --whatsapp:#25D366;
+    }
+
+    /* Reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Montserrat',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background:var(--bg);
+      color:var(--muted);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      overflow-x:hidden;
+      scroll-behavior:smooth;
+    }
+
+    a{color:inherit;text-decoration:none}
+
+    /* NAV */
+    nav{
+      position:fixed;inset:0 0 auto 0;height:72px;display:flex;align-items:center;z-index:60;
+      background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.25));
+      width:100%;backdrop-filter: blur(6px);border-bottom:1px solid rgba(255,255,255,0.03)
+    }
+    .nav-inner{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand .logo{
+      width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--gold) 0%, #f0c44e 100%);
+      display:flex;align-items:center;justify-content:center;font-weight:900;color:#111;font-size:18px;box-shadow:0 6px 18px rgba(255,215,0,0.08)
+    }
+    .brand span{color:#fff;font-weight:700;letter-spacing:0.3px}
+    .nav-links{display:flex;gap:24px;align-items:center}
+    .nav-links a{color:rgba(255,255,255,0.85);font-weight:600;padding:8px 6px;border-radius:8px;transition:all .25s}
+    .nav-links a:hover{color:var(--gold);transform:translateY(-2px)}
+    .cta-nav{background:var(--gold);color:#000;padding:8px 14px;border-radius:30px;font-weight:700;box-shadow:0 10px 30px rgba(255,215,0,0.09)}
+    @media (max-width:900px){
+      .nav-links{display:none}
+    }
+
+    /* HERO */
+    header{
+      min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;padding:120px 20px 60px;
+      background-image: url('https://images.unsplash.com/photo-1559526324-593bc073d938?auto=format&fit=crop&w=1950&q=80');
+      background-size:cover;background-position:center;
+    }
+    header::after{
+      content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.65), rgba(0,0,0,0.75));z-index:1;
+    }
+    .hero-inner{position:relative;z-index:2;max-width:980px;padding:28px;border-radius:14px}
+    .eyebrow{display:inline-block;padding:6px 10px;background:var(--glass);border-radius:30px;color:var(--muted);font-weight:600;margin-bottom:18px}
+    h1{font-size:clamp(2rem,5vw,4rem);color:var(--gold);line-height:1;margin-bottom:14px;text-shadow:0 6px 30px rgba(255,215,0,0.06)}
+    p.lead{font-size:clamp(1rem,2.1vw,1.25rem);color:#e6e6e6;margin-bottom:20px;max-width:760px;margin-left:auto;margin-right:auto}
+    .hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+    .btn-primary{
+      background:linear-gradient(90deg,var(--gold),#ffdf6b);
+      color:#111;padding:14px 22px;border-radius:999px;font-weight:800;box-shadow:0 14px 40px rgba(255,215,0,0.09);transition:transform .22s, box-shadow .22s
+    }
+    .btn-primary:hover{transform:translateY(-4px);box-shadow:0 24px 60px rgba(255,215,0,0.14)}
+    .btn-ghost{border:1px solid rgba(255,255,255,0.06);padding:12px 18px;border-radius:999px;color:rgba(255,255,255,0.9)}
+    .scroll-hint{margin-top:26px;color:rgba(255,255,255,0.7);font-size:14px;display:flex;gap:10px;align-items:center;justify-content:center}
+    .chev{width:22px;height:22px;border-left:2px solid rgba(255,255,255,0.7);border-bottom:2px solid rgba(255,255,255,0.7);transform:rotate(-45deg);animation:down 1.6s infinite}
+
+    @keyframes down{0%{transform:translateY(0) rotate(-45deg)}50%{transform:translateY(8px) rotate(-45deg)}100%{transform:translateY(0) rotate(-45deg)}}
+
+    /* CONTAINER / SECTIONS */
+    .container{max-width:1100px;margin:0 auto;padding:60px 20px}
+    section{padding:60px 0}
+    .section-head{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+    .section-head h2{color:var(--gold);font-size:1.9rem;font-weight:800}
+    .section-head p{color:#d9d9d9}
+
+    /* ABOUT */
+    .about{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center}
+    .about-text p{color:#dcdcdc}
+    .card-photo{border-radius:12px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.04)}
+    .card-photo img{width:100%;height:100%;display:block;object-fit:cover}
+
+    @media (max-width:960px){
+      .about{grid-template-columns:1fr;gap:18px}
+      .card-photo{height:320px}
+    }
+
+    /* SERVICES */
+    .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .service{
+      background:var(--card-bg);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);
+      transition:transform .35s, box-shadow .35s, border-color .35s;
+      display:flex;gap:16px;align-items:flex-start;
+    }
+    .service:hover{transform:translateY(-8px);box-shadow:0 30px 50px rgba(0,0,0,0.6);border-color:rgba(255,215,0,0.12)}
+    .icon-wrap{width:60px;height:60px;border-radius:10px;background:linear-gradient(180deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;color:#111;font-weight:900;flex-shrink:0}
+    .service h3{color:#fff;margin-bottom:6px}
+    .service p{color:#d6d6d6;font-size:0.98rem}
+
+    @media (max-width:900px){
+      .services-grid{grid-template-columns:1fr;align-items:stretch}
+    }
+
+    /* CONTACT */
+    .contact-center{display:flex;flex-direction:column;align-items:center;gap:14px}
+    .big-wa{display:inline-flex;align-items:center;gap:12px;background:var(--whatsapp);color:#fff;padding:12px 18px;border-radius:999px;font-weight:800;box-shadow:0 18px 40px rgba(37,211,102,0.12);transition:transform .2s}
+    .big-wa:hover{transform:scale(1.06)}
+
+    /* FOOTER */
+    footer{padding:28px 20px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-top:1px solid rgba(255,255,255,0.02);color:rgba(255,255,255,0.6)}
+    .footer-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 20px}
+
+    /* FLOATING WHATSAPP */
+    .whatsapp-fixo{
+      position:fixed;right:18px;bottom:18px;z-index:90;background:var(--whatsapp);color:#fff;border-radius:999px;padding:12px 16px;display:flex;gap:10px;align-items:center;box-shadow:0 18px 60px rgba(37,211,102,0.12);transition:transform .18s,box-shadow .18s
+    }
+    .whatsapp-fixo img{width:22px;height:22px}
+    .whatsapp-fixo:hover{transform:translateY(-6px);box-shadow:0 32px 80px rgba(37,211,102,0.2)}
+    .wa-text{font-weight:800}
+
+    /* REVEAL ANIM (initial state) */
+    .reveal{opacity:0;transform:translateY(28px) scale(.995);transition:all .8s cubic-bezier(.2,.9,.3,1)}
+    .reveal.show{opacity:1;transform:translateY(0) scale(1)}
+
+    /* IMAGE HOVER EFFECT */
+    .hover-zoom{overflow:hidden;border-radius:10px}
+    .hover-zoom img{display:block;transition:transform .9s cubic-bezier(.2,.9,.3,1)}
+    .hover-zoom:hover img{transform:scale(1.08) rotate(-0.5deg);filter:brightness(1.04)}
+
+    /* SMALL */
+    @media (max-width:520px){
+      .brand span{display:none}
+      .hero-inner{padding:18px}
+      .nav-inner{padding:0 12px}
+      .card-photo{height:240px}
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <div class="brand">
+        <div class="logo">L</div>
+        <span>Light Consig</span>
+      </div>
+      <div class="nav-links" role="navigation" aria-label="Menu principal">
+        <a href="#home">Home</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#contato" class="cta-nav">Contato</a>
+      </div>
+      <a href="#contato" class="cta-nav" style="display:none">Contato</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="home" aria-label="Seção principal - Light Consig">
+    <div class="hero-inner">
+      <div class="eyebrow">Crédito consignado</div>
+      <h1>Light Consig</h1>
+      <p class="lead">Crédito consignado com agilidade, confiança e atendimento personalizado.</p>
+
+      <div class="hero-ctas">
+        <a class="btn-primary" href="https://wa.me/5548999673097?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20Light%20Consig!" target="_blank" rel="noreferrer">Fale conosco no WhatsApp</a>
+        <a class="btn-ghost" href="#servicos">Conheça nossos serviços</a>
+      </div>
+
+      <div class="scroll-hint" aria-hidden="true" style="margin-top:22px">
+        <div class="chev"></div>
+        <div style="opacity:.85">Role para ver mais</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <main>
+    <section id="sobre" class="container">
+      <div class="section-head">
+        <h2>Sobre a Light Consig</h2>
+        <p>Especialistas em crédito consignado com atendimento humanizado.</p>
+      </div>
+
+      <div class="about">
+        <div class="about-text reveal">
+          <p style="font-size:1.05rem">
+            Somos especialistas em crédito consignado. Atuamos com responsabilidade e compromisso,
+            oferecendo soluções financeiras seguras, rápidas e com as melhores condições do mercado.
+            Com atendimento humanizado, buscamos sempre facilitar a vida dos nossos clientes.
+          </p>
+          <ul style="margin-top:16px;color:#d6d6d6;list-style:none;display:grid;gap:8px;padding-left:0">
+            <li>✔ Atendimento personalizado</li>
+            <li>✔ Simulações rápidas e sem compromisso</li>
+            <li>✔ Operações 100% digitais e seguras</li>
+          </ul>
+        </div>
+
+        <div class="card-photo hover-zoom reveal" style="height:320px">
+          <!-- Imagem real de atendimento/consultor -->
+          <img src="homem-e-mulher-fechando-negocios-representando-ate.jpeg" alt="Consultor financeiro atendendo cliente" style="width:100%;height:100%;object-fit:cover">
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="servicos" class="container" aria-label="Serviços">
+      <div class="section-head">
+        <h2>Nossos Serviços</h2>
+        <p>Atendemos com soluções digitais e seguras:</p>
+      </div>
+
+      <div class="services-grid">
+        <article class="service reveal">
+          <div class="icon-wrap">C</div>
+          <div>
+            <h3>Crédito consignado</h3>
+            <p>Condições especiais para aposentados, pensionistas e servidores públicos.</p>
+            <div style="margin-top:8px" class="hover-zoom" aria-hidden="true">
+              <img src="nesta-foto-ilustracao-sendo-mostradas-notas-de-cinquenta-e-duzentos-reais-e-uma-moeda-de-um-real-em-destaque-o-real-e-o-dinheiro-atual-no-brasil_68852-96.jpg" alt="Notas de dinheiro" style="width:180px;height:90px;object-fit:cover;border-radius:8px">
+            </div>
+          </div>
+        </article>
+
+        <article class="service reveal">
+          <div class="icon-wrap">P</div>
+          <div>
+            <h3>Portabilidade</h3>
+            <p>Transfira seu crédito com facilidade para melhorar suas condições.</p>
+            <div style="margin-top:8px" class="hover-zoom" aria-hidden="true">
+              <img src="1310269-close-up-de-pessoa-assinando-um-contrato-gratis-foto.jpg" alt="Pessoa assinando contrato" style="width:180px;height:90px;object-fit:cover;border-radius:8px">
+            </div>
+          </div>
+        </article>
+
+        <article class="service reveal">
+          <div class="icon-wrap">R</div>
+          <div>
+            <h3>Refinanciamento</h3>
+            <p>Reestruture suas parcelas com prazos e taxas competitivas.</p>
+            <div style="margin-top:8px" class="hover-zoom" aria-hidden="true">
+              <img src="1000_F_486222249_r2b1K9iUeIHWTEWB3pESivL1er7q7WBH.jpg" alt="Mesa com calculadora e documentos" style="width:180px;height:90px;object-fit:cover;border-radius:8px">
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contato" class="container">
+      <div class="section-head">
+        <h2>Entre em Contato</h2>
+        <p>Fale com um de nossos consultores agora mesmo pelo WhatsApp:</p> 
+      </div>
+
+      <div class="contact-center reveal">
+        <a href="https://wa.me/5548999673097?text=Olá!%20Quero%20fazer%20uma%20simulação%20com%20a%20Light%20Consig." target="_blank" rel="noreferrer" class="big-wa" aria-label="Chamar no WhatsApp">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png" alt="WhatsApp" style="width:22px;height:22px">
+          <span class="wa-text">Chamar no WhatsApp</span>
+        </a>
+
+        <p style="max-width:720px;text-align:center;color:#d6d6d6;margin-top:8px">
+          Nossa equipe faz a simulação e orienta gratuitamente — sem compromisso. Atendimento rápido e seguro.
+        </p>
+
+        <div style="margin-top:18px" class="hover-zoom" aria-hidden="true">
+          <img src="como-estruturar-o-time-financeiro.jpg" alt="Imagem de apoio financeira" style="width:100%;max-width:740px;height:240px;object-fit:cover;border-radius:12px">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>© 2025 Light Consig. Todos os direitos reservados.</div>
+      <div style="color:rgba(255,255,255,0.45);font-size:0.95rem">Desenvolvido por João Pedro Web • Versão 1.0</div>
+    </div>
+  </footer>
+
+  <!-- FIXED WHATSAPP -->
+  <a class="whatsapp-fixo" href="https://wa.me/5548999673097?text=Olá!%20Quero%20fazer%20uma%20simulação%20com%20a%20Light%20Consig." target="_blank" rel="noreferrer" aria-label="WhatsApp">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png" alt="whatsapp icon">
+    <div class="wa-text">Chamar no WhatsApp</div>
+  </a>
+
+  <script>
+    // Intersection reveal (scroll animations)
+    const reveals = document.querySelectorAll('.reveal');
+    const options = {threshold: 0.18};
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('show');
+          // small delay staggering for children
+          const imgs = entry.target.querySelectorAll('.hover-zoom img');
+          imgs.forEach((img,i)=> img.style.transitionDelay = (i*80)+'ms');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, options);
+    reveals.forEach(r => observer.observe(r));
+
+    // Active link highlight on scroll
+    const sections = document.querySelectorAll('main section, header');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          const id = entry.target.id || 'home';
+          navLinks.forEach(a => a.style.color = a.getAttribute('href') === '#'+id ? 'var(--gold)' : 'rgba(255,255,255,0.85)');
+        }
+      });
+    }, {threshold: 0.45});
+
+    sections.forEach(s => navObserver.observe(s));
+
+    // Small: enable nav toggle on mobile if needed (simple)
+    // (If later you want hamburger menu, I can add)
+  </script>
+</body>
+</html>
