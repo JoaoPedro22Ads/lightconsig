@@ -146,6 +146,136 @@
       .card-photo{height:240px}
     }
 
+/* FEEDBACKS REAIS */
+.feedback-slider {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 14px;
+  scrollbar-width: none;
+}
+.feedback-slider::-webkit-scrollbar {display: none;}
+
+.feedback {
+  min-width: 320px;
+  scroll-snap-align: start;
+  background: var(--card-bg);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  transition: transform .35s ease;
+}
+.feedback:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255,215,0,0.1);
+}
+.feedback .quote {
+  color: #e9e9e9;
+  font-style: italic;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.feedback .author {
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.feedback-cta {
+  text-align: center;
+  margin-top: 26px;
+}
+.feedback-cta p {
+  color: #dcdcdc;
+  margin-bottom: 10px;
+}
+@media (max-width:520px){
+  .feedback {min-width: 90%;}
+}
+
+.feedback-section {
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  padding: 80px 20px;
+  margin-top: 60px;
+}
+
+.feedback-title {
+  color: #ffd700;
+  font-weight: 800;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.feedback-subtitle {
+  color: #ccc;
+  font-size: 1rem;
+  margin-bottom: 40px;
+}
+
+.feedback-slider {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 50px;
+}
+
+.feedback {
+  background-color: #111;
+  border-radius: 15px;
+  width: 300px;
+  padding: 25px;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.feedback:hover {
+  transform: translateY(-5px);
+}
+
+.feedback .quote {
+  font-style: italic;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.feedback .author {
+  color: #ffd700;
+  font-weight: bold;
+}
+
+.feedback-button-area {
+  margin-top: 30px;
+}
+
+.feedback-question {
+  font-size: 1rem;
+  color: #ddd;
+  margin-bottom: 15px;
+}
+
+.feedback-btn {
+  display: inline-block;
+  background: linear-gradient(90deg, #ffd700, #ffb800);
+  color: #000;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 40px;
+  padding: 12px 32px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 20px rgba(255, 215, 0, 0.2);
+}
+
+.feedback-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #ffb800, #ffd700);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
   </style>
 </head>
 <body>
@@ -281,6 +411,27 @@
       </div>
     </section>
   </main>
+<!-- FEEDBACK REAL -->
+<section id="feedbacks" class="feedback-section">
+  <h2 class="feedback-title">O que nossos clientes dizem</h2>
+  <p class="feedback-subtitle">
+    Depoimentos reais de quem já fez consignado com a Light Consig:
+  </p>
+
+  <!-- Onde os feedbacks reais serão exibidos -->
+  <div class="feedback-slider"></div>
+
+  <!-- Botão estilizado -->
+  <div class="feedback-button-area">
+    <p class="feedback-question">Quer deixar sua opinião também?</p>
+    <a 
+      href="https://forms.gle/iqUvUr262GbEqFQU7" 
+      target="_blank" 
+      class="feedback-btn">
+      Enviar Feedback
+    </a>
+  </div>
+</section>
 
   <!-- FOOTER -->
   <footer>
@@ -296,39 +447,43 @@
     <div class="wa-text">Chamar no WhatsApp</div>
   </a>
 
-  <script>
-    // Intersection reveal (scroll animations)
+ <script>
+async function carregarFeedbacks() {
+  // 🔹 Coloque aqui o link do seu Apps Script PUBLICADO COMO WEB APP
+  const url = "https://script.google.com/macros/s/AKfycbw7y2RrnjFzRdFy5Jk6kziCaAA2wk-QRKdFDq3V5riwsVCQImLy03nUEMEJKMLkH0g/exec";
+
+  try {
+    const resp = await fetch(url, { mode: "cors" }); // habilita CORS
+    const data = await resp.json();
+    console.log("Feedbacks carregados:", data);
+
+    const container = document.querySelector(".feedback-slider");
+    container.innerHTML = ""; // limpa qualquer fixo
+
+    if (data.feedbacks && data.feedbacks.length > 0) {
+      data.feedbacks.reverse().forEach(fb => {
+        const div = document.createElement("div");
+        div.className = "feedback reveal";
+        div.innerHTML = `
+          <p class="quote">“${fb.mensagem}”</p>
+          <div class="author">— ${fb.nome}${fb.cidade ? " (" + fb.cidade + ")" : ""}</div>
+        `;
+        container.appendChild(div);
+      });
+    } else {
+      container.innerHTML = `<p style="color:#aaa;text-align:center;">Nenhum feedback real ainda. Seja o primeiro a enviar!</p>`;
+    }
+
+    // Reanimação suave
     const reveals = document.querySelectorAll('.reveal');
-    const options = {threshold: 0.18};
-    const observer = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          entry.target.classList.add('show');
-          // small delay staggering for children
-          const imgs = entry.target.querySelectorAll('.hover-zoom img');
-          imgs.forEach((img,i)=> img.style.transitionDelay = (i*80)+'ms');
-          obs.unobserve(entry.target);
-        }
-      });
-    }, options);
-    reveals.forEach(r => observer.observe(r));
+    reveals.forEach(r => r.classList.add('show'));
 
-    // Active link highlight on scroll
-    const sections = document.querySelectorAll('main section, header');
-    const navLinks = document.querySelectorAll('.nav-links a');
-    const navObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          const id = entry.target.id || 'home';
-          navLinks.forEach(a => a.style.color = a.getAttribute('href') === '#'+id ? 'var(--gold)' : 'rgba(255,255,255,0.85)');
-        }
-      });
-    }, {threshold: 0.45});
+  } catch (err) {
+    console.error("❌ Erro ao carregar feedbacks:", err);
+  }
+}
 
-    sections.forEach(s => navObserver.observe(s));
-
-    // Small: enable nav toggle on mobile if needed (simple)
-    // (If later you want hamburger menu, I can add)
-  </script>
+carregarFeedbacks();
+</script>
 </body>
 </html>
